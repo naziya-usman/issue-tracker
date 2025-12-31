@@ -5,6 +5,8 @@ import dynamic from 'next/dynamic';
 // @ts-ignore - CSS side-effect import has no type declarations
 import "easymde/dist/easymde.min.css";
 import { useMemo } from 'react';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 const SimpleMDE = dynamic(() => import('react-simplemde-editor'), {
     ssr: false
 }) as any;
@@ -17,8 +19,8 @@ interface IssueForm {
 
 
 const NewIssuePage = () => {
+    const router = useRouter()
     const { register, control, handleSubmit } = useForm<IssueForm>()
-    console.log(register('title'));
 
     const mdeOptions = useMemo(() => {
         return {
@@ -36,7 +38,11 @@ const NewIssuePage = () => {
     }, []);
 
     return (
-        <form className='form  max-w-xl space-y-3 m-auto p-5 bg-gray-100 border border-gray-200 rounded-lg' onSubmit={handleSubmit((data) => console.log(data))} >
+        <form className='form  max-w-xl space-y-3 m-auto p-5 bg-gray-100 border border-gray-200 rounded-lg'
+            onSubmit={handleSubmit(async (data) => {
+                await axios.post('/api/issue', data)
+                router.push('/issues')
+            })} >
             <TextField.Root placeholder="Title" {...register('title')} />
             <Controller
                 name='description'
