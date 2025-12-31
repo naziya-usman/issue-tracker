@@ -5,7 +5,7 @@ import React from 'react'
 
 const newIssuePage = () => {
     return (
-        <div className='max-w-xl space-y-3'>
+        <div className='card card-body max-w-xl space-y-3   m-auto bg-gray-100 '>
             <TextField.Root placeholder="Title">
             </TextField.Root>
             <TextArea placeholder="Discription" />
