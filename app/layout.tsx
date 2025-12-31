@@ -1,8 +1,11 @@
+// @ts-ignore - CSS side-effect import has no type declarations
+import '@radix-ui/themes/styles.css';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 // @ts-ignore - CSS side-effect import has no type declarations
 import "./globals.css";
-import NavBar from "./NavBar"
+import NavBar from "./NavBar";
+import {  Theme } from "@radix-ui/themes";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,10 +32,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-      <NavBar/>
-        <main>
-          {children}
-        </main>
+        <Theme>
+          <NavBar />
+          <main>{children}</main>
+        </Theme>
       </body>
     </html>
   );
