@@ -1,0 +1,19 @@
+volumes:
+  # Volume for MySQL data persistence
+  mysql_data:
+    driver: local
+services:
+  mysql:
+    image: mysql:8
+    container_name: issue-tracker
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: issue-tracker
+      MYSQL_DATABASE: issue-tracker
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+networks:
+  default:
+    driver: bridge
