@@ -1,16 +1,16 @@
-import Image from "next/image";
-import { Button, Table } from "@radix-ui/themes";
-import Link from "next/link";
-import { prisma } from "../lib/prisma";
-import IssueStatusBadge from "../components/IssueStatusBadge";
-import delay from "delay";
+'use client'
+
+import { Table } from "@radix-ui/themes";
+import Skeleton from 'react-loading-skeleton'
+// @ts-ignore - CSS side-effect import has no type declarations
+import 'react-loading-skeleton/dist/skeleton.css'
 import IssuesActions from "./IssuesActions";
-const Issues = async () => {
-    const issues = await prisma.issue.findMany();
-    await delay(2000)
+
+const LoadingIssuesPage = () => {
+    const issues = [1, 2, 3, 4, 5]
     return (
         <div>
-         <IssuesActions/>
+            <IssuesActions />
             <Table.Root variant="surface">
                 <Table.Header>
                     <Table.Row>
@@ -22,13 +22,13 @@ const Issues = async () => {
                 <Table.Body>
                     {
                         issues.map(issue =>
-                            <Table.Row key={issue.id}>
+                            <Table.Row key={issue}>
                                 <Table.Cell>
-                                    {issue.title}
-                                    <div className="block md:hidden"><IssueStatusBadge status= {issue.status}/></div>
+                                    <Skeleton />
+                                    <div className="block md:hidden"> <Skeleton /></div>
                                 </Table.Cell>
-                                <Table.Cell className="hidden md:table-cell " ><IssueStatusBadge status= {issue.status}/> </Table.Cell>
-                                <Table.Cell className="hidden md:table-cell">{issue.createdAt.toDateString()}</Table.Cell>
+                                <Table.Cell className="hidden md:table-cell " > <Skeleton /> </Table.Cell>
+                                <Table.Cell className="hidden md:table-cell"> <Skeleton /></Table.Cell>
                             </Table.Row>
                         )
                     }
@@ -38,4 +38,4 @@ const Issues = async () => {
     )
 }
 
-export default Issues
+export default LoadingIssuesPage
