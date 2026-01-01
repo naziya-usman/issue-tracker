@@ -41,6 +41,16 @@ const NewIssuePage = () => {
         };
     }, []);
 
+    const onSubmit = handleSubmit(async (data) => {
+        try {
+            setSubmitting(true)
+            await axios.post('/api/issue', data)
+            router.push('/issues')
+        } catch (error) {
+            setSubmitting(false)
+            setError("An Unexpected error occurred.!")
+        }
+    })
     return (
         <div className='max-w-xl space-y-3  m-auto p-5 bg-gray-100 border border-gray-200 rounded-lg'>
             {
@@ -50,16 +60,7 @@ const NewIssuePage = () => {
                 </Callout.Root>
             }
             <form className='form space-y-3'
-                onSubmit={handleSubmit(async (data) => {
-                    try {
-                        setSubmitting(true)
-                        await axios.post('/api/issue', data)
-                        router.push('/issues')
-                    } catch (error) {
-                        setSubmitting(false)
-                        setError("An Unexpected error occurred.!")
-                    }
-                })} >
+                onSubmit={onSubmit}>
                 <ErrorMessage>
                     {errors.title?.message}
                 </ErrorMessage>
@@ -71,8 +72,7 @@ const NewIssuePage = () => {
                     name='description'
                     control={control}
                     defaultValue=""
-                    render={({ field }) => <SimpleMDE options={mdeOptions} {...field} />}
-                />
+                    render={({ field }) => <SimpleMDE options={mdeOptions} {...field} />} />
                 <Button className='cursor-pointer m-5' disabled={isSubmitting} >
                     Submit New Issue{isSubmitting && <Spinner />}
                 </Button>
