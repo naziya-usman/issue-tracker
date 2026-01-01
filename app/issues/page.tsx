@@ -10,7 +10,7 @@ const Issues = async () => {
     await delay(2000)
     return (
         <div>
-         <IssuesActions/>
+            <IssuesActions />
             <Table.Root variant="surface">
                 <Table.Header>
                     <Table.Row>
@@ -24,10 +24,12 @@ const Issues = async () => {
                         issues.map(issue =>
                             <Table.Row key={issue.id}>
                                 <Table.Cell>
-                                    {issue.title}
-                                    <div className="block md:hidden"><IssueStatusBadge status= {issue.status}/></div>
+                                    <Link href={`/issues/${issue.id}`}>
+                                        {issue.title}
+                                    </Link>
+                                    <div className="block md:hidden"><IssueStatusBadge status={issue.status} /></div>
                                 </Table.Cell>
-                                <Table.Cell className="hidden md:table-cell " ><IssueStatusBadge status= {issue.status}/> </Table.Cell>
+                                <Table.Cell className="hidden md:table-cell " ><IssueStatusBadge status={issue.status} /> </Table.Cell>
                                 <Table.Cell className="hidden md:table-cell">{issue.createdAt.toDateString()}</Table.Cell>
                             </Table.Row>
                         )
