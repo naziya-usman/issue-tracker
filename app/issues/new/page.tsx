@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createIssueSchema } from '@/app/validationSchemas';
 import { z } from "zod"
+import ErrorMessage from '@/app/components/ErrorMessage';
 const SimpleMDE = dynamic(() => import('react-simplemde-editor'), {
     ssr: false
 }) as any;
@@ -55,9 +56,13 @@ const NewIssuePage = () => {
                         setError("An Unexpected error occurred.!")
                     }
                 })} >
-                {errors.title && <Text color='red' as='p'>{errors.title.message}</Text>}
+                <ErrorMessage>
+                    {errors.title?.message}
+                </ErrorMessage>
                 <TextField.Root placeholder="Title" {...register('title')} />
-                {errors.description && <Text color='red' as='p'>{errors.description.message}</Text>}
+                <ErrorMessage>
+                    {errors.description?.message}
+                </ErrorMessage>
                 <Controller
                     name='description'
                     control={control}
