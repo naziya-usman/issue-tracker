@@ -1,8 +1,5 @@
-import { Box } from '@radix-ui/themes'
-import React from 'react'
-import Skeleton from 'react-loading-skeleton'
-// @ts-ignore - CSS side-effect import has no type declarations
-import 'react-loading-skeleton/dist/skeleton.css'
+import { Skeleton } from "@/app/components";
+import { Box } from '@radix-ui/themes';
 const NewIssuePage = () => {
   return (
     <Box>

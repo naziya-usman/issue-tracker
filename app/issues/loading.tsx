@@ -1,9 +1,6 @@
 'use client'
-
+import { Skeleton } from '@/app/components';
 import { Table } from "@radix-ui/themes";
-import Skeleton from 'react-loading-skeleton'
-// @ts-ignore - CSS side-effect import has no type declarations
-import 'react-loading-skeleton/dist/skeleton.css'
 import IssuesActions from "./IssuesActions";
 
 const LoadingIssuesPage = () => {

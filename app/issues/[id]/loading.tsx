@@ -1,12 +1,7 @@
-import { Box, Card, Flex, Heading, Text } from '@radix-ui/themes';
-import IssueStatusBadge from '@/app/components/IssueStatusBadge';
-import ReactMarkDown from 'react-markdown'
-import Skeleton from 'react-loading-skeleton'
-// @ts-ignore - CSS side-effect import has no type declarations
-import 'react-loading-skeleton/dist/skeleton.css'
+import { Skeleton } from '@/app/components';
+import { Box, Card, Flex } from '@radix-ui/themes';
 
 const LoadingIssueDetailPage = () => {
-
   return (
     <Box className='max-w-xl'>
       <Skeleton />
