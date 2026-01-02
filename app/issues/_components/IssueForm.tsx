@@ -41,11 +41,13 @@ const NewIssueForm = ({ issue }: { issue?: Issue }) => {
             toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link", "preview"],
         };
     }, []);
-console.log(issue?.title,issue?.description)
     const onSubmit = handleSubmit(async (data) => {
         try {
             setSubmitting(true)
-            await axios.post('/api/issue', data)
+            if (issue)
+                axios.patch('/api/issue/' + issue.id, data)
+            else
+                await axios.post('/api/issue', data)
             router.push('/issues')
         } catch (error) {
             setSubmitting(false)
@@ -75,7 +77,8 @@ console.log(issue?.title,issue?.description)
                     defaultValue={issue?.description}
                     render={({ field }) => <SimpleMDE options={mdeOptions} {...field} />} />
                 <Button className='cursor-pointer m-5' disabled={isSubmitting} >
-                    Submit New Issue{isSubmitting && <Spinner />}
+                    {issue ? 'Update Issue' : 'Submit New Issue'} {' '}
+                    {isSubmitting && <Spinner />}
                 </Button>
             </form>
         </div>
