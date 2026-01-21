@@ -11,7 +11,7 @@ const IssueDetails = ({ issue }: { issue: Issue }) => {
                 <IssueStatusBadge status={issue.status} />
                 <Text>{issue.updatedAt.toDateString()}</Text>
             </Flex>
-            <Card className="prose" mt="2">
+            <Card className="prose max-w-full" mt="4">
                 <ReactMarkDown>{issue.description}</ReactMarkDown>
             </Card>
         </>

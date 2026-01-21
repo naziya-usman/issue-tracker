@@ -6,16 +6,13 @@ import { createIssueSchema } from '@/app/validationSchemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Callout, TextField } from '@radix-ui/themes';
 import axios from 'axios';
-import dynamic from 'next/dynamic';
 import { Controller, useForm } from 'react-hook-form';
 // @ts-ignore - CSS side-effect import has no type declarations
 import "easymde/dist/easymde.min.css";
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
+import SimpleMDE from 'react-simplemde-editor';
 import { z } from "zod";
-const SimpleMDE = dynamic(() => import('react-simplemde-editor'), {
-    ssr: false
-}) as any;
 
 type IssueFormData = z.infer<typeof createIssueSchema>
 
@@ -38,7 +35,7 @@ const NewIssueForm = ({ issue }: { issue?: Issue }) => {
                 uniqueId: "issue-description",
                 delay: 1000,
             },
-            toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link", "preview"],
+            toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link", "preview"] as const,
         };
     }, []);
     const onSubmit = handleSubmit(async (data) => {
