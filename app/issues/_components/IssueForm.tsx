@@ -45,7 +45,7 @@ const NewIssueForm = ({ issue }: { issue?: Issue }) => {
                 axios.patch('/api/issue/' + issue.id, data)
             else
                 await axios.post('/api/issue', data)
-            router.push('/issues')
+            router.push('/issues/list')
         } catch (error) {
             setSubmitting(false)
             setError("An Unexpected error occurred.!")
