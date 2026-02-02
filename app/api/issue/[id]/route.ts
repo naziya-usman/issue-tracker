@@ -1,5 +1,6 @@
 import { prisma } from "@/app/lib/prisma";
 import { createIssueSchema } from "@/app/validationSchemas";
+import delay from "delay";
 import { NextRequest, NextResponse } from "next/server";
 
 type UserIdParams = {
@@ -8,7 +9,7 @@ type UserIdParams = {
 
 export async function PATCH(
     request: NextRequest,
-    { params }: { params: Promise<UserIdParams> }
+    { params }: { params: Promise<UserIdParams> },
 ) {
     const id = (await params).id;
     const body = await request.json();
@@ -34,10 +35,9 @@ export async function PATCH(
 }
 export async function DELETE(
     request: NextRequest,
-    { params }: { params: Promise<UserIdParams> }
+    { params }: { params: Promise<UserIdParams> },
 ) {
     const id = (await params).id;
-    
     const issue = await prisma.issue.findUnique({
         where: {
             id: parseInt(id),
