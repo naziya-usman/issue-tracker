@@ -57,13 +57,13 @@ const NavBar = () => {
                   </DropdownMenu.Label>
                   <DropdownMenu.Separator />
                   <DropdownMenu.Item>
-                    <Link href="/api/auth/signout" className='w-full'>Log Out</Link>
+                    <Link href="/api/auth/signout" className='w-full'>Logout</Link>
                   </DropdownMenu.Item>
                 </DropdownMenu.Content>
               </DropdownMenu.Root>
             )}
             {status === 'unauthenticated' && (
-              <Link className='nav-link' href="/api/auth/signin">Sign In</Link>
+              <Link className='nav-link' href="/api/auth/signin">LogIn</Link>
             )}
           </Box>
         </Flex>
