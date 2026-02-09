@@ -1,18 +1,39 @@
 import { IssueStatusBadge, Link } from "@/app/components";
+import type { Issue } from "@/app/generated/prisma/client";
+import { Status } from "@/app/generated/prisma/enums";
 import { Table } from "@radix-ui/themes";
+import NextLink from "next/link";
 import { prisma } from "../../lib/prisma";
 import IssuesActions from "./IssuesActions";
-import { Status } from "@/app/generated/prisma/enums";
-import { object } from "zod";
-const Issues = async ({ searchParams }: { searchParams: Promise<{ status?: string }> }) => {
+import { ArrowUpIcon } from "@radix-ui/react-icons";
+const Issues = async ({ searchParams }: { searchParams: Promise<{ status?: string, orderBy: keyof Issue }> }) => {
 
-const params = await searchParams;
-const status = params.status;
+    const params = await searchParams;
+    const status = params.status;
 
-console.log("Selected Status:", status); 
+    const columns: {
+        label: string;
+        value: keyof Issue;
+        className?: string;
+    }[] = [
+            {
+                label: "Issue",
+                value: "title"
+            },
+            {
+                label: "Status",
+                value: "status",
+                className: "hidden md:table-cell"
+            },
+            {
+                label: "Created",
+                value: "createdAt",
+                className: "hidden md:table-cell"
+            },
+        ]
 
-const statuses = Object.values(Status);
-const validStatus = (status && statuses.includes(status as Status)) ? status : "all";
+    const statuses = Object.values(Status);
+    const validStatus = (status && statuses.includes(status as Status)) ? status : "all";
 
 
     const issues = await prisma.issue.findMany({
@@ -26,9 +47,18 @@ const validStatus = (status && statuses.includes(status as Status)) ? status : "
             <Table.Root variant="surface">
                 <Table.Header>
                     <Table.Row>
-                        <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell className="hidden md:table-cell">Status</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell className="hidden md:table-cell">Created</Table.ColumnHeaderCell>
+                        {columns.map(column =>
+                            <Table.ColumnHeaderCell
+                                key={column.value}
+                                className={column.className}>
+                                <NextLink href={{
+                                    query: { ...params, orderBy: column.value, }
+                                }}>
+                                    {column.label}
+                                </NextLink>
+                                {column.value === params.orderBy && <ArrowUpIcon className="inline"/>}
+                            </Table.ColumnHeaderCell>
+                        )}
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -41,7 +71,8 @@ const validStatus = (status && statuses.includes(status as Status)) ? status : "
                                             {issue.title}
                                         </Link>
                                     </div>
-                                    <div className="block md:hidden"><IssueStatusBadge status={issue.status} /></div>
+                                    <div className="block md:hidden"><IssueStatusBadge status={issue.status} />
+                                    </div>
                                 </Table.Cell>
                                 <Table.Cell className="hidden md:table-cell " ><IssueStatusBadge status={issue.status} /> </Table.Cell>
                                 <Table.Cell className="hidden md:table-cell">{issue.createdAt.toDateString()}</Table.Cell>
