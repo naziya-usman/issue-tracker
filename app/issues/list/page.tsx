@@ -4,6 +4,7 @@ import { prisma } from "../../lib/prisma";
 import IssuesActions from "./IssuesActions";
 import IssueTable, { columnNames, type IssueQuery } from "./IssueTable";
 import { Flex } from "@radix-ui/themes";
+import type { Metadata } from "next";
 
 interface Props {
     searchParams: Promise<IssueQuery>;
@@ -16,7 +17,7 @@ const Issues = async ({ searchParams }: Props) => {
     const validStatus = statuses.includes(params.status as Status)
         ? (params.status as Status)
         : undefined;
-        
+
     const where = validStatus ? { status: validStatus } : undefined;
 
     const orderBy = (params.orderBy && (columnNames as string[]).includes(params.orderBy as string))
@@ -40,6 +41,11 @@ const Issues = async ({ searchParams }: Props) => {
             <Pagination itemCount={issueCount} pageSize={pageSize} currentPage={page} />
         </Flex>
     )
+}
+
+export const metadata: Metadata = {
+    title: "Issue Tracker - Issue List",
+    description: "View the project issues",
 }
 
 export default Issues

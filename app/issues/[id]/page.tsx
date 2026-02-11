@@ -14,7 +14,7 @@ interface PageProps {
     params: Promise<UserIdParams>;
 }
 const IssueDetailPage = async ({ params }: PageProps) => {
-  const session = await getServerSession(authOptions)
+    const session = await getServerSession(authOptions)
     const { id } = await params
     const issue = await prisma.issue.findUnique({
         where: { id: parseInt(id) }
@@ -27,7 +27,7 @@ const IssueDetailPage = async ({ params }: PageProps) => {
             </Box>
             {session && <Box>
                 <Flex direction='column' gap='4'>
-                    <AssigneeSelect issue={issue}/>
+                    <AssigneeSelect issue={issue} />
                     <EditIssueButton issueId={issue.id} />
                     <DeleteIssueButton issueId={issue.id} />
                 </Flex>
@@ -35,5 +35,15 @@ const IssueDetailPage = async ({ params }: PageProps) => {
         </Grid>
     )
 }
+
+export async function generateMetadata({ params }: PageProps) {
+    const { id } = await params
+    const issue = await prisma.issue.findUnique({ where: { id: parseInt(id) } })
+    return {
+        title: issue ? `Issue Tracker - ${issue.title}` : "Issue Tracker - Issue Not Found",
+        description: issue ? `Details of the issue: ${issue.title}` : "The requested issue does not exist.",
+    }
+}
+
 
 export default IssueDetailPage
