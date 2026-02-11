@@ -1,4 +1,5 @@
-import IssueSummary from "./IssueSummary";
+import IssueChart from "./issueChart";
+
 import { prisma } from "./lib/prisma";
 
 export default async function Home() {
@@ -18,5 +19,5 @@ export default async function Home() {
 			status: "IN_PROGRESS"
 		}
 	})
-	return <IssueSummary open={open} closed={closed} inProgress={inProgress} />;
+	return <IssueChart open={open} closed={closed} inProgress={inProgress} />;
 }
