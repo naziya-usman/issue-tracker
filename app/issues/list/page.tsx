@@ -5,6 +5,7 @@ import IssuesActions from "./IssuesActions";
 import IssueTable, { columnNames, type IssueQuery } from "./IssueTable";
 import { Flex } from "@radix-ui/themes";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 interface Props {
     searchParams: Promise<IssueQuery>;
@@ -36,12 +37,18 @@ const Issues = async ({ searchParams }: Props) => {
     const issueCount = await prisma.issue.count({ where });
     return (
         <Flex direction="column" gap="3">
-            <IssuesActions />
+            <Suspense>
+                <IssuesActions />
+            </Suspense>
             <IssueTable searchParams={searchParams} issues={Promise.resolve(issues)} />
-            <Pagination itemCount={issueCount} pageSize={pageSize} currentPage={page} />
+            <Suspense>
+                <Pagination itemCount={issueCount} pageSize={pageSize} currentPage={page} />
+            </Suspense>
         </Flex>
     )
 }
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
     title: "Issue Tracker - Issue List",
